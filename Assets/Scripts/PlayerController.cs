@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         rigidBody.velocity += force * Time.fixedDeltaTime;
 
         //  Make sure bicycle always moves in the forward direction
-        rigidBody.velocity = transform.forward * rigidBody.velocity.magnitude;
+        //rigidBody.velocity = transform.forward * rigidBody.velocity.magnitude;
 
         transform.Rotate(Vector3.up, playerInput.x * Time.deltaTime * rotationSpeed);
         

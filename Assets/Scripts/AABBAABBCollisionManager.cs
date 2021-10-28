@@ -94,8 +94,8 @@ public class AABBAABBCollisionManager : MonoBehaviour
 
         // Calculate and apply projection amount
         float mTotal = (1 / objAMass) + (1 / objBMass);
-        Vector3 projA = collisionNormal * penetration * (objAMass / mTotal);
-        Vector3 projB = collisionNormal * penetration * (objBMass / mTotal);
+        Vector3 projA = collisionNormal * penetration * ((1/objAMass) / mTotal);
+        Vector3 projB = collisionNormal * penetration * ((1/objBMass) / mTotal);
 
         objA.transform.position -= projA;
         objB.transform.position += projB;
@@ -106,14 +106,16 @@ public class AABBAABBCollisionManager : MonoBehaviour
         float impulse = (-(1 + elasticity) * Vector3.Dot(relV, collisionNormal)) / mTotal;
         Debug.Log("Impulse: " + impulse);
 
-        objA.GetComponent<RigidBody>().velocity -= objAMass * impulse * collisionNormal;
-        objB.GetComponent<RigidBody>().velocity += objBMass * impulse * collisionNormal;
+        objA.GetComponent<RigidBody>().velocity -= (1/objAMass) * impulse * collisionNormal;
+        objB.GetComponent<RigidBody>().velocity += (1/objBMass) * impulse * collisionNormal;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         // Check collision between every item
+        
         if (AABBObjects.Length > 1)
         {
             for (int i = 0; i < AABBObjects.Length - 1; i++)
@@ -121,7 +123,11 @@ public class AABBAABBCollisionManager : MonoBehaviour
                 for (int j = i + 1; j < AABBObjects.Length; j++)
                 {
                     CollisionInfo collisionInfo = CheckCollision(AABBObjects[i].GetComponent<BoxCollider>(), AABBObjects[j].GetComponent<BoxCollider>());
-                    ResolveCollision(AABBObjects[i], AABBObjects[j], collisionInfo);
+                    
+                    if (collisionInfo != null)
+                    {
+                        ResolveCollision(AABBObjects[i], AABBObjects[j], collisionInfo);
+                    }
                 }
             }
         }

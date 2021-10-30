@@ -15,12 +15,19 @@ public class CollisionInfo
 
 public class AABBAABBCollisionManager : MonoBehaviour
 {
-    public GameObject[] AABBObjects;
+    public List<GameObject> AABBObjects;
 
     // Start is called before the first frame update
     void Start()
     {
-        AABBObjects = GameObject.FindGameObjectsWithTag("AABB");
+
+        //todo: breaks if object has two box collider components, check for this condition
+        BoxCollider[] boxColliderArray = GameObject.FindObjectsOfType<BoxCollider>();
+        foreach (BoxCollider boxCollider in boxColliderArray)
+        {
+            AABBObjects.Add(boxCollider.gameObject);
+        }
+
     }
 
     // Check collision and if collision is occuring, return CollisionInfo object to be consumed by ResolveCollision method
@@ -70,7 +77,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
 
             //Debug.Log("Boxes intersecting  by " + minPenetration);
             //Debug.DrawLine(boxA.transform.position, boxA.transform.position + (normal * 5.0f), Color.green);
-            
+
             return new CollisionInfo(normal, minPenetration);
         }
 
@@ -84,7 +91,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
         float objBMass = objB.GetComponent<RigidBody>().inverseMass;
         Vector3 objAVelocity = objA.GetComponent<RigidBody>().velocity;
         Vector3 objBVelocity = objB.GetComponent<RigidBody>().velocity;
-        
+
         //Get minimum value of coefficient of restitution between object A and B
         float objAE = objA.GetComponent<RigidBody>().e;
         float objBE = objB.GetComponent<RigidBody>().e;
@@ -102,7 +109,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
         objB.transform.position += projB;
 
 
-        
+
         // Calculate and apply impulse
         Vector3 relV = objBVelocity - objAVelocity;
         float impulse = (-(1 + elasticity) * Vector3.Dot(relV, collisionNormal)) / mTotal;
@@ -116,14 +123,14 @@ public class AABBAABBCollisionManager : MonoBehaviour
     void FixedUpdate()
     {
         // Check collision between every item
-        if (AABBObjects.Length > 1)
+        if (AABBObjects.Count > 1)
         {
-            for (int i = 0; i < AABBObjects.Length - 1; i++)
+            for (int i = 0; i < AABBObjects.Count - 1; i++)
             {
-                for (int j = i + 1; j < AABBObjects.Length; j++)
+                for (int j = i + 1; j < AABBObjects.Count; j++)
                 {
                     CollisionInfo collisionInfo = CheckCollision(AABBObjects[i].GetComponent<BoxCollider>(), AABBObjects[j].GetComponent<BoxCollider>());
-                    
+
                     if (collisionInfo != null)
                     {
                         ResolveCollision(AABBObjects[i], AABBObjects[j], collisionInfo);

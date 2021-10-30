@@ -24,7 +24,8 @@ public class RigidBody : MonoBehaviour
         if (gravity == true)
         {
             velocity += -transform.up;
-
+            AABBAABBCollisionManager collisionManager = GameObject.FindObjectOfType<AABBAABBCollisionManager>();
+            
         }
         velocity += acceleration * Time.fixedDeltaTime;
         transform.position += velocity * Time.fixedDeltaTime;

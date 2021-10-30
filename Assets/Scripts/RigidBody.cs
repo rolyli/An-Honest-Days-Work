@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class RigidBody : MonoBehaviour
 {
-    public float mass;
+    public float inverseMass = 1;
     public Vector3 velocity;
     public Vector3 acceleration;
+    public float e = 1;
+    public bool gravity = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +21,11 @@ public class RigidBody : MonoBehaviour
     void FixedUpdate()
     {
         //Semi implicit euler
+        if (gravity == true)
+        {
+            velocity += -transform.up;
+
+        }
         velocity += acceleration * Time.fixedDeltaTime;
         transform.position += velocity * Time.fixedDeltaTime;
     }

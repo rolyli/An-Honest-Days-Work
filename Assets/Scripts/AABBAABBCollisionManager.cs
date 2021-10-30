@@ -16,7 +16,6 @@ public class CollisionInfo
 public class AABBAABBCollisionManager : MonoBehaviour
 {
     public GameObject[] AABBObjects;
-    public float elasticity = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -44,8 +43,8 @@ public class AABBAABBCollisionManager : MonoBehaviour
             isColliding = true;
         }
 
-        boxA.GetComponent<Renderer>().material.color = isColliding ? Color.red : Color.white;
-        boxB.GetComponent<Renderer>().material.color = isColliding ? Color.red : Color.white;
+        //boxA.GetComponent<Renderer>().material.color = isColliding ? Color.red : Color.white;
+        //boxB.GetComponent<Renderer>().material.color = isColliding ? Color.red : Color.white;
 
         if (isColliding)
         {
@@ -69,53 +68,54 @@ public class AABBAABBCollisionManager : MonoBehaviour
             Vector3 normal = Vector3.zero;
             normal[minAxis] = deltaPosition[minAxis] < 0 ? -1.0f : 1.0f;
 
-            Debug.Log("Boxes intersecting  by " + minPenetration);
-            Debug.DrawLine(boxA.transform.position, boxA.transform.position + (normal * 5.0f), Color.green);
-
-
+            //Debug.Log("Boxes intersecting  by " + minPenetration);
+            //Debug.DrawLine(boxA.transform.position, boxA.transform.position + (normal * 5.0f), Color.green);
+            
             return new CollisionInfo(normal, minPenetration);
         }
 
         return null;
     }
 
-    
+    // Calculate and apply projection amount
     void ResolveCollision(GameObject objA, GameObject objB, CollisionInfo collisionInfo)
     {
-        // Calculate and apply projection amount
-        float objAMass = objA.GetComponent<RigidBody>().mass;
-        float objBMass = objB.GetComponent<RigidBody>().mass;
+        float objAMass = objA.GetComponent<RigidBody>().inverseMass;
+        float objBMass = objB.GetComponent<RigidBody>().inverseMass;
         Vector3 objAVelocity = objA.GetComponent<RigidBody>().velocity;
         Vector3 objBVelocity = objB.GetComponent<RigidBody>().velocity;
-
+        
+        //Get minimum value of coefficient of restitution between object A and B
+        float objAE = objA.GetComponent<RigidBody>().e;
+        float objBE = objB.GetComponent<RigidBody>().e;
+        float elasticity = Mathf.Min(objAE, objBE);
 
         Vector3 collisionNormal = collisionInfo.normal;
         float penetration = collisionInfo.penetration;
 
         // Calculate and apply projection amount
-        float mTotal = (1 / objAMass) + (1 / objBMass);
-        Vector3 projA = collisionNormal * penetration * ((1/objAMass) / mTotal);
-        Vector3 projB = collisionNormal * penetration * ((1/objBMass) / mTotal);
+        float mTotal = objAMass + objBMass;
+        Vector3 projA = collisionNormal * penetration * (objAMass / mTotal);
+        Vector3 projB = collisionNormal * penetration * (objBMass / mTotal);
 
         objA.transform.position -= projA;
         objB.transform.position += projB;
+
 
         
         // Calculate and apply impulse
         Vector3 relV = objBVelocity - objAVelocity;
         float impulse = (-(1 + elasticity) * Vector3.Dot(relV, collisionNormal)) / mTotal;
-        Debug.Log("Impulse: " + impulse);
+        //Debug.Log("Impulse: " + impulse);
 
-        objA.GetComponent<RigidBody>().velocity -= (1/objAMass) * impulse * collisionNormal;
-        objB.GetComponent<RigidBody>().velocity += (1/objBMass) * impulse * collisionNormal;
+        objA.GetComponent<RigidBody>().velocity -= objAMass * impulse * collisionNormal;
+        objB.GetComponent<RigidBody>().velocity += objBMass * impulse * collisionNormal;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        
         // Check collision between every item
-        
         if (AABBObjects.Length > 1)
         {
             for (int i = 0; i < AABBObjects.Length - 1; i++)

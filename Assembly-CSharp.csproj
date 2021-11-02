@@ -58,14 +58,24 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\AABBAABBCollisionManager.cs" />
+    <Compile Include="Assets\Scripts\Finite State Machine\MovementSM.cs" />
     <Compile Include="Assets\Scripts\RigidBody.cs" />
     <Compile Include="Assets\Scripts\MainMenu.cs" />
-    <Compile Include="Assets\Scripts\MenuItem.cs" />
     <Compile Include="Assets\Scripts\OpponentAI.cs" />
+    <Compile Include="Assets\Scripts\Finite State Machine\BaseState.cs" />
+    <Compile Include="Assets\Scripts\Finite State Machine\StateMachine.cs" />
+    <Compile Include="Assets\BrokenVector\LowPolyFencePack\Scripts\DoorToggle.cs" />
+    <Compile Include="Assets\Scripts\MenuItem.cs" />
+    <Compile Include="Assets\Scripts\Finite State Machine\State\Hunting\Idle.cs" />
+    <Compile Include="Assets\BrokenVector\LowPolyFencePack\Scripts\DoorController.cs" />
+    <Compile Include="Assets\Scripts\Finite State Machine\State\Hunting\Moving.cs" />
+    <Compile Include="Assets\Scripts\Finite State Machine\State\Hunting\Hunting.cs" />
+    <Compile Include="Assets\Scripts\Finite State Machine\State\Hunting\Attacking.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BrokenVector\LowPolyShaders\Shaders\LowPolyUnlitShader.shader" />
     <None Include="Assets\BrokenVector\LowPolyShaders\Shaders\LowPolyPBRShader.shader" />
+    <None Include="Assets\BrokenVector\LowPolyTreePack\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

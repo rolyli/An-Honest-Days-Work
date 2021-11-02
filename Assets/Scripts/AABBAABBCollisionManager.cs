@@ -22,10 +22,10 @@ public class AABBAABBCollisionManager : MonoBehaviour
     {
 
         //todo: breaks if object has two box collider components, check for this condition
-        BoxCollider[] boxColliderArray = GameObject.FindObjectsOfType<BoxCollider>();
-        foreach (BoxCollider boxCollider in boxColliderArray)
+        BoxCollider[] rigidBodyArray = GameObject.FindObjectsOfType<BoxCollider>();
+        foreach (BoxCollider rigidBody in rigidBodyArray)
         {
-            AABBObjects.Add(boxCollider.gameObject);
+            AABBObjects.Add(rigidBody.gameObject);
         }
 
     }
@@ -41,6 +41,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
         Vector3 minBoundsB = boxB.bounds.min;
         Vector3 maxBoundsB = boxB.bounds.max;
 
+
         if (
             (minBoundsA.x <= maxBoundsB.x && maxBoundsA.x >= minBoundsB.x) &&
             (minBoundsA.y <= maxBoundsB.y && maxBoundsA.y >= minBoundsB.y) &&
@@ -49,6 +50,12 @@ public class AABBAABBCollisionManager : MonoBehaviour
         {
             isColliding = true;
         }
+
+        if (GameObject.ReferenceEquals(boxA, boxB))
+        {
+            isColliding = false;
+        }
+
 
         //boxA.GetComponent<Renderer>().material.color = isColliding ? Color.red : Color.white;
         //boxB.GetComponent<Renderer>().material.color = isColliding ? Color.red : Color.white;
@@ -85,7 +92,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
     }
 
     // Calculate and apply projection amount
-    void ResolveCollision(GameObject objA, GameObject objB, CollisionInfo collisionInfo)
+    void ProjectAndResolveCollision(GameObject objA, GameObject objB, CollisionInfo collisionInfo, bool resolveCollision)
     {
         float objAMass = objA.GetComponent<RigidBody>().inverseMass;
         float objBMass = objB.GetComponent<RigidBody>().inverseMass;
@@ -105,18 +112,23 @@ public class AABBAABBCollisionManager : MonoBehaviour
         Vector3 projA = collisionNormal * penetration * (objAMass / mTotal);
         Vector3 projB = collisionNormal * penetration * (objBMass / mTotal);
 
+
+
         objA.transform.position -= projA;
         objB.transform.position += projB;
 
 
 
         // Calculate and apply impulse
-        Vector3 relV = objBVelocity - objAVelocity;
-        float impulse = (-(1 + elasticity) * Vector3.Dot(relV, collisionNormal)) / mTotal;
-        //Debug.Log("Impulse: " + impulse);
+        if (resolveCollision)
+        {
+            Vector3 relV = objBVelocity - objAVelocity;
+            float impulse = (-(1.0f + elasticity) * Vector3.Dot(relV, collisionNormal)) / mTotal;
+            //Debug.Log("Impulse: " + impulse);
 
-        objA.GetComponent<RigidBody>().velocity -= objAMass * impulse * collisionNormal;
-        objB.GetComponent<RigidBody>().velocity += objBMass * impulse * collisionNormal;
+            objA.GetComponent<RigidBody>().velocity -= objAMass * impulse * collisionNormal;
+            objB.GetComponent<RigidBody>().velocity += objBMass * impulse * collisionNormal;
+        }
     }
 
     // Update is called once per frame
@@ -129,11 +141,16 @@ public class AABBAABBCollisionManager : MonoBehaviour
             {
                 for (int j = i + 1; j < AABBObjects.Count; j++)
                 {
+                    RigidBody boxA = AABBObjects[i].GetComponent<RigidBody>();
+                    RigidBody boxB = AABBObjects[j].GetComponent<RigidBody>();
+
+                    bool resolveCollision = boxA.resolveCollision & boxB.resolveCollision;
+
                     CollisionInfo collisionInfo = CheckCollision(AABBObjects[i].GetComponent<BoxCollider>(), AABBObjects[j].GetComponent<BoxCollider>());
 
                     if (collisionInfo != null)
                     {
-                        ResolveCollision(AABBObjects[i], AABBObjects[j], collisionInfo);
+                        ProjectAndResolveCollision(AABBObjects[i], AABBObjects[j], collisionInfo, resolveCollision);
                     }
                 }
             }

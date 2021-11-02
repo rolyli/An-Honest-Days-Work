@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class RigidBody : MonoBehaviour
 {
-    public float inverseMass = 1;
+    public float inverseMass = 1.0f;
     public Vector3 velocity;
     public Vector3 acceleration;
-    public float e = 1;
+    public float e = 1.0f;
     public bool gravity = false;
+    public bool resolveCollision = true;
 
 
     // Start is called before the first frame update

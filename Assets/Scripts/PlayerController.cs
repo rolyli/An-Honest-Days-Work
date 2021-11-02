@@ -37,9 +37,27 @@ public class PlayerController : MonoBehaviour
             //  When gravity enabled, velocity.magnitude = 1 even if car is stationary on the XZ plane
             if (rigidBody.gravity == true)
             {
+                // Vehicle local axis is wrong way around
+                Vector3 forwardTransform = transform.right.normalized;
+
                 Vector3 XZVelocity = rigidBody.velocity;
                 XZVelocity.y = 0;
-                rigidBody.velocity = transform.right.normalized * XZVelocity.magnitude;
+                Debug.Log(XZVelocity + " " + rigidBody.velocity);
+
+                // Conserve previous y velocity
+                Vector3 newVelocity;
+                
+                newVelocity = forwardTransform * XZVelocity.magnitude;
+                newVelocity.y = rigidBody.velocity.y;
+
+                // Vehicle is reversing
+                if (Vector3.Dot(forwardTransform, XZVelocity) < 0 )
+                {
+                    newVelocity = -forwardTransform * XZVelocity.magnitude;
+
+                }
+
+                rigidBody.velocity = newVelocity;
             } 
             else
             {

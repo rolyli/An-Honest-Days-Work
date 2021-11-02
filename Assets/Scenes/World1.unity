@@ -7203,9 +7203,12 @@ MonoBehaviour:
   friendlyFound: {fileID: 0}
   friendlyDistance: 0
   friendlyDirection: {x: 0, y: 0, z: 0}
-  friendlyAggroDistance: 6.5
+  friendlyAggroDistance: 20
   friendlyAttackDistance: 3
   friendlyUnStickDistance: 2.9
+  playerDistance: 0
+  playerDirection: {x: 0, y: 0, z: 0}
+  playerFleeDistance: 7
   velocity: {x: 0, y: 0, z: 0}
   rigidBody: {fileID: 0}
 --- !u!1 &2064013487
@@ -7298,7 +7301,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2064013487}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.79, y: 3.4, z: 4.570919}
+  m_LocalPosition: {x: -5.32, y: 3.4, z: 4.570919}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

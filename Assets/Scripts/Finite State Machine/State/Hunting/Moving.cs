@@ -31,7 +31,6 @@ public class Moving : Hunting
         if (_sm.friendlyDistance < 3)
         {
             stateMachine.ChangeState(_sm.attackingState);
-
         }
     }
 

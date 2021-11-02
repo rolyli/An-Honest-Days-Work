@@ -8,16 +8,20 @@ public class MovementSM : StateMachine
     public Idle idleState;
     public Moving movingState;
     public Attacking attackingState;
-
+    public Fleeing fleeingState;
 
     // shared variables
     public GameObject[] friendlies;
     public GameObject friendlyFound;
     public float friendlyDistance;
     public Vector3 friendlyDirection;
-    public float friendlyAggroDistance = 10.0f;
+    public float friendlyAggroDistance = 20f;
     public float friendlyAttackDistance = 3.0f;
     public float friendlyUnStickDistance = 2.9f;
+
+    public float playerDistance;
+    public Vector3 playerDirection;
+    public float playerFleeDistance = 7.0f;
 
     public Vector3 velocity;
     public RigidBody rigidBody;
@@ -28,6 +32,8 @@ public class MovementSM : StateMachine
         idleState = new Idle(this);
         movingState = new Moving(this);
         attackingState = new Attacking(this);
+        fleeingState = new Fleeing(this);
+
 
 
         rigidBody = GetComponent<RigidBody>();
@@ -44,7 +50,7 @@ public class MovementSM : StateMachine
 
         friendlies = GameObject.FindGameObjectsWithTag("Friendly");
 
-        // Check if near a friendly, e.g. chicken
+        // Calculate relationship to friendlies and set friendlyFound depending on friendlyDistance
         friendlyFound = null;
 
         foreach (GameObject friendly in friendlies)
@@ -59,6 +65,10 @@ public class MovementSM : StateMachine
             }
         }
 
+        // Calculate relationship to player
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        playerDistance = (player.transform.position - transform.position).magnitude;
+        playerDirection = (player.transform.position - transform.position).normalized;
     }
 
     protected override BaseState GetInitialState()

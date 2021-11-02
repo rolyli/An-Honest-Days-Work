@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Finite State Machine\State\Hunting\Moving.cs" />
     <Compile Include="Assets\Scripts\Finite State Machine\State\Hunting\Hunting.cs" />
     <Compile Include="Assets\Scripts\Finite State Machine\State\Hunting\Attacking.cs" />
+    <Compile Include="Assets\Scripts\Finite State Machine\State\Hunting\Fleeing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BrokenVector\LowPolyShaders\Shaders\LowPolyUnlitShader.shader" />

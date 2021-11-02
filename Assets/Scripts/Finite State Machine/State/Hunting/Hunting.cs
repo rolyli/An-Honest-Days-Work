@@ -14,7 +14,17 @@ public class Hunting : BaseState
 
     public override void UpdateLogic()
     {
+        // Stochastic behavior when fox finds animals but is also near the player
         base.UpdateLogic();
+
+        if (_sm.playerDistance < _sm.playerFleeDistance)
+        {
+            stateMachine.ChangeState(_sm.fleeingState);
+        }
+
+
+
+
     }
 
     public override void UpdatePhysics()

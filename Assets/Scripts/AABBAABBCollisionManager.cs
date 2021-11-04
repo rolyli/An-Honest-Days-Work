@@ -92,7 +92,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
     }
 
     // Calculate and apply projection amount
-    void ProjectAndResolveCollision(GameObject objA, GameObject objB, CollisionInfo collisionInfo, bool resolveCollision)
+    float ProjectAndResolveCollision(GameObject objA, GameObject objB, CollisionInfo collisionInfo, bool resolveCollision)
     {
         float objAMass = objA.GetComponent<RigidBody>().inverseMass;
         float objBMass = objB.GetComponent<RigidBody>().inverseMass;
@@ -118,22 +118,32 @@ public class AABBAABBCollisionManager : MonoBehaviour
         objB.transform.position += projB;
 
 
-
+        float impulse = 0;
         // Calculate and apply impulse
         if (resolveCollision)
         {
             Vector3 relV = objBVelocity - objAVelocity;
-            float impulse = (-(1.0f + elasticity) * Vector3.Dot(relV, collisionNormal)) / mTotal;
+            impulse = (-(1.0f + elasticity) * Vector3.Dot(relV, collisionNormal)) / mTotal;
             //Debug.Log("Impulse: " + impulse);
 
             objA.GetComponent<RigidBody>().velocity -= objAMass * impulse * collisionNormal;
             objB.GetComponent<RigidBody>().velocity += objBMass * impulse * collisionNormal;
         }
+
+        return impulse;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        // Update collider object list every frame
+        AABBObjects.Clear();
+        BoxCollider[] rigidBodyArray = GameObject.FindObjectsOfType<BoxCollider>();
+        foreach (BoxCollider rigidBody in rigidBodyArray)
+        {
+            AABBObjects.Add(rigidBody.gameObject);
+        }
+
         // Check collision between every item
         if (AABBObjects.Count > 1)
         {
@@ -144,13 +154,28 @@ public class AABBAABBCollisionManager : MonoBehaviour
                     RigidBody boxA = AABBObjects[i].GetComponent<RigidBody>();
                     RigidBody boxB = AABBObjects[j].GetComponent<RigidBody>();
 
-                    bool resolveCollision = boxA.resolveCollision & boxB.resolveCollision;
+
+
+
+                    bool resolveCollisionEnabled = boxA.resolveCollision & boxB.resolveCollision;
 
                     CollisionInfo collisionInfo = CheckCollision(AABBObjects[i].GetComponent<BoxCollider>(), AABBObjects[j].GetComponent<BoxCollider>());
 
                     if (collisionInfo != null)
                     {
-                        ProjectAndResolveCollision(AABBObjects[i], AABBObjects[j], collisionInfo, resolveCollision);
+                        float impulse = ProjectAndResolveCollision(AABBObjects[i], AABBObjects[j], collisionInfo, resolveCollisionEnabled);
+                        if (GameObject.ReferenceEquals(boxA.monitorCollisionObjectPair, boxB.gameObject) && GameObject.ReferenceEquals(boxB.monitorCollisionObjectPair, boxA.gameObject)) {
+                            boxA.collisionInfo = collisionInfo;
+                            boxA.impulse = impulse;
+                            boxA.isColliding = true;
+                            boxA.collisionObject = boxB.gameObject;
+
+
+                            boxB.collisionInfo = collisionInfo;
+                            boxB.impulse = impulse;
+                            boxB.isColliding = true;
+                            boxB.collisionObject = boxA.gameObject;
+                        }
                     }
                 }
             }

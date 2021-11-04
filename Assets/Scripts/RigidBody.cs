@@ -11,6 +11,15 @@ public class RigidBody : MonoBehaviour
     public bool gravity = false;
     public bool resolveCollision = true;
 
+    // for collision info to be monitored, two objects must have set opposite game object
+    public GameObject monitorCollisionObjectPair;
+
+    public CollisionInfo collisionInfo;
+    public float impulse;
+    public bool isColliding = false;
+    public GameObject collisionObject;
+    
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,5 +39,17 @@ public class RigidBody : MonoBehaviour
         }
         velocity += acceleration * Time.fixedDeltaTime;
         transform.position += velocity * Time.fixedDeltaTime;
+    }
+
+    private void LateUpdate()
+    {
+        // Reset collision info every 60 frames
+        if (Time.frameCount % 60 == 0)
+        {
+            collisionInfo = null;
+            impulse = 0;
+            isColliding = false;
+            collisionObject = null;
+        }
     }
 }

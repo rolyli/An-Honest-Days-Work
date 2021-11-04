@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
 
                 Vector3 XZVelocity = rigidBody.velocity;
                 XZVelocity.y = 0;
-                Debug.Log(XZVelocity + " " + rigidBody.velocity);
 
                 // Conserve previous y velocity
                 Vector3 newVelocity;

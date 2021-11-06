@@ -6,6 +6,8 @@ TagManager:
   tags:
   - AABB
   - Friendly
+  - Enemy
+  - UI
   layers:
   - Default
   - TransparentFX

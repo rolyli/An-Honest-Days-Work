@@ -14,7 +14,8 @@ public class RigidBody : MonoBehaviour
     // for collision info to be monitored, two objects must have set opposite game object
     public GameObject monitorCollisionObjectPair;
 
-    public CollisionInfo collisionInfo;
+    public List<Collision> collisionBuffer;
+
     public float impulse;
     public bool isColliding = false;
     public GameObject collisionObject;
@@ -24,7 +25,7 @@ public class RigidBody : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        collisionBuffer = new List<Collision>();
     }
 
     // Update is called once per frame
@@ -43,13 +44,6 @@ public class RigidBody : MonoBehaviour
 
     private void LateUpdate()
     {
-        // Reset collision info every 60 frames
-        if (Time.frameCount % 60 == 0)
-        {
-            collisionInfo = null;
-            impulse = 0;
-            isColliding = false;
-            collisionObject = null;
-        }
+        collisionBuffer.Clear();
     }
 }

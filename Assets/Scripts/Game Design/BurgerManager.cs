@@ -15,22 +15,28 @@ public class BurgerManager : MonoBehaviour
     {
         rigidBody = GetComponent<RigidBody>();
         player = GameObject.FindGameObjectWithTag("Player");
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Object.ReferenceEquals(rigidBody.collisionObject, player)) {
+        if (rigidBody.collisionBuffer != null)
+        {
+            foreach (Collision collision in rigidBody.collisionBuffer)
+            {
+                if (collision.CheckReference(player))
+                {
 
-            var playerRigidBody = player.GetComponent<RigidBody>();
-            var mass = 1.0f / playerRigidBody.inverseMass;
+                    var playerRigidBody = player.GetComponent<RigidBody>();
+                    var mass = 1.0f / playerRigidBody.inverseMass;
 
-            mass += burgerMass;
-            playerRigidBody.inverseMass = 1 / mass;
+                    mass += burgerMass;
+                    playerRigidBody.inverseMass = 1 / mass;
 
-            Object.Destroy(gameObject);
+                    Object.Destroy(gameObject);
+                }
+            }
         }
+
     }
 }

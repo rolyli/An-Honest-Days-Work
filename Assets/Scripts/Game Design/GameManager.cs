@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] enemyList;
     public GameObject[] friendlyList;
-    
+    public GameObject[] burgerList;
 
     private GameObject player;
 
@@ -38,9 +38,13 @@ public class GameManager : MonoBehaviour
     {
         return new Vector3(Random.Range(-10.0f, 10.0f), 3, Random.Range(-10.0f, 10.0f));
     }
+
+    // There can be a maximum of three burgers at a given point in time
     void SpawnEnemy()
     {
-        if (Random.value > (1 - enemyStochasticRate))
+        burgerList = GameObject.FindGameObjectsWithTag("Burger");
+
+        if ((Random.value > (1 - enemyStochasticRate)) & burgerList.Length < 4)
         {
             GameObject enemy = Instantiate(enemyPrefab, RandomPosition(), Quaternion.identity);
             enemy.GetComponent<RigidBody>().velocity = Random.insideUnitSphere;
@@ -72,6 +76,14 @@ public class GameManager : MonoBehaviour
         {
             lose = true;
             // tc: lose logic
+        }
+
+        // Destroy fox if they fall off the map
+        foreach(GameObject fox in enemyList)
+        {
+            if (fox.transform.position.y < 0) {
+                Object.Destroy(fox);
+            }
         }
     }
 }

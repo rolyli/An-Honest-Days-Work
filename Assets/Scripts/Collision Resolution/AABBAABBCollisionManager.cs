@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Returned after collision detection
 public class CollisionInfo
 {
     public CollisionInfo(Vector3 normal, float penetration)
@@ -13,13 +15,58 @@ public class CollisionInfo
     public float penetration { get; set; }
 }
 
+// Information about collision between two objects
+// Collisions are added to collision buffer which store all collisions that occured in a frame
+// at the end of each frame they are sent to its respective game objects
+public class Collision
+{
+    public Collision(Vector3 normal, float penetration, float Impulse, RigidBody rigidBodyA,
+        RigidBody rigidBodyB, GameObject boxA, GameObject boxB)
+    {
+        this.Normal = normal;
+        this.Impulse = Impulse;
+        this.Penetration = penetration;
+        this.RigidBodyA = rigidBodyA;
+        this.RigidBodyB = rigidBodyB;
+        this.BoxA = boxA;
+        this.BoxB = boxB;
+    }
+    public Vector3 Normal { get; set; }
+    public float Penetration { get; set; }
+
+    // These fields will be populated after collision is resolved for sending to buffer
+    public float Impulse { get; set; }
+    public GameObject BoxA { get; set; }
+    public GameObject BoxB { get; set; }
+    public RigidBody RigidBodyA { get; set; }
+    public RigidBody RigidBodyB { get; set; }
+
+    // Used by game object to check if collision with a certain game object has occured
+    public bool CheckReference(GameObject GO)
+    {
+        if (Object.ReferenceEquals(this.BoxA, GO) || Object.ReferenceEquals(this.BoxB, GO))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+
+    }
+}
+
 public class AABBAABBCollisionManager : MonoBehaviour
 {
     public List<GameObject> AABBObjects;
+    public List<Collision> collisionBuffer;
 
     // Start is called before the first frame update
+    // Initialize AABBObjects array
     void Start()
     {
+        // Initialize collision buffer that will store all collisions that occurs in a given frame
+        collisionBuffer = new List<Collision>();
+
 
         //todo: breaks if object has two box collider components, check for this condition
         BoxCollider[] rigidBodyArray = GameObject.FindObjectsOfType<BoxCollider>();
@@ -27,7 +74,6 @@ public class AABBAABBCollisionManager : MonoBehaviour
         {
             AABBObjects.Add(rigidBody.gameObject);
         }
-
     }
 
     // Check collision and if collision is occuring, return CollisionInfo object to be consumed by ResolveCollision method
@@ -92,6 +138,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
     }
 
     // Calculate and apply projection amount
+    // return impulse as float
     float ProjectAndResolveCollision(GameObject objA, GameObject objB, CollisionInfo collisionInfo, bool resolveCollision)
     {
         float objAMass = objA.GetComponent<RigidBody>().inverseMass;
@@ -124,16 +171,18 @@ public class AABBAABBCollisionManager : MonoBehaviour
         {
             Vector3 relV = objBVelocity - objAVelocity;
             impulse = (-(1.0f + elasticity) * Vector3.Dot(relV, collisionNormal)) / mTotal;
-            //Debug.Log("Impulse: " + impulse);
 
             objA.GetComponent<RigidBody>().velocity -= objAMass * impulse * collisionNormal;
             objB.GetComponent<RigidBody>().velocity += objBMass * impulse * collisionNormal;
         }
 
+
         return impulse;
     }
 
     // Update is called once per frame
+    // Check collision between every item
+
     void FixedUpdate()
     {
         // Update collider object list every frame
@@ -151,19 +200,37 @@ public class AABBAABBCollisionManager : MonoBehaviour
             {
                 for (int j = i + 1; j < AABBObjects.Count; j++)
                 {
-                    RigidBody boxA = AABBObjects[i].GetComponent<RigidBody>();
-                    RigidBody boxB = AABBObjects[j].GetComponent<RigidBody>();
+                    RigidBody rigidBodyA = AABBObjects[i].GetComponent<RigidBody>();
+                    RigidBody rigidBodyB = AABBObjects[j].GetComponent<RigidBody>();
 
 
 
 
-                    bool resolveCollisionEnabled = boxA.resolveCollision & boxB.resolveCollision;
+                    bool resolveCollisionEnabled = rigidBodyA.resolveCollision & rigidBodyB.resolveCollision;
 
                     CollisionInfo collisionInfo = CheckCollision(AABBObjects[i].GetComponent<BoxCollider>(), AABBObjects[j].GetComponent<BoxCollider>());
 
                     if (collisionInfo != null)
                     {
                         float impulse = ProjectAndResolveCollision(AABBObjects[i], AABBObjects[j], collisionInfo, resolveCollisionEnabled);
+
+
+                        // Improved collision event algorithm
+                        // Object can be colliding into multiple objects in one frame
+                        // Hence each collision event is added to a collision buffer
+                        // Collision events in the buffer is sent to its respective game object collision buffer
+                        // Game object can check if collision occured with specific game object using Collision.CheckReference()
+
+                        Collision collision = new Collision(collisionInfo.normal, collisionInfo.penetration, impulse, 
+                            rigidBodyA, rigidBodyB, AABBObjects[i], AABBObjects[j]);
+
+                        collisionBuffer.Add(collision);
+
+                        Debug.Log(collision.BoxA.name + "||" + collision.BoxB.name + "|| impulse: " + collision.Impulse + " " + impulse);
+
+
+                        // legacy code
+                        /*
                         boxA.collisionInfo = collisionInfo;
                         boxA.impulse = impulse;
                         boxA.isColliding = true;
@@ -174,10 +241,30 @@ public class AABBAABBCollisionManager : MonoBehaviour
                         boxB.impulse = impulse;
                         boxB.isColliding = true;
                         boxB.collisionObject = boxA.gameObject;
+                        */
                     }
                 }
             }
         }
+
+        foreach (Collision collision in collisionBuffer)
+        {
+            foreach (GameObject AABBObject in AABBObjects)
+            {
+                if (Object.ReferenceEquals(AABBObject, collision.BoxA))
+                {
+                    collision.RigidBodyA.collisionBuffer.Add(collision);
+                }
+
+                if (Object.ReferenceEquals(AABBObject, collision.BoxB))
+                {
+                    collision.RigidBodyB.collisionBuffer.Add(collision);
+                }
+            }
+        }
+
+        // Reset collision buffer
+        collisionBuffer.Clear();
     }
 }
 

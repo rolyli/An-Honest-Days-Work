@@ -59,20 +59,21 @@
     <Compile Include="Assets\Scripts\Newtonian Physics\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Collision Resolution\AABBAABBCollisionManager.cs" />
     <Compile Include="Assets\Scripts\Game Design\GameSceneManager.cs" />
-    <Compile Include="Assets\Scripts\Enemy Hierachical FSM\State Machines\EnemySM.cs" />
-    <Compile Include="Assets\Scripts\Enemy Hierachical FSM\State\Hunting\Attacking.cs" />
-    <Compile Include="Assets\Scripts\Enemy Hierachical FSM\State\Fleeing\Fleeing.cs" />
+    <Compile Include="Assets\Scripts\Hierachical FSM\State Machines\EnemySM.cs" />
+    <Compile Include="Assets\Scripts\Hierachical FSM\State\Hunting\Attacking.cs" />
+    <Compile Include="Assets\Scripts\Hierachical FSM\State\Fleeing\Fleeing.cs" />
     <Compile Include="Assets\Scripts\Collision Resolution\RigidBody.cs" />
     <Compile Include="Assets\PwhSoft\Low Poly Fast Food\Demo\Scripts\Spin.cs" />
-    <Compile Include="Assets\Scripts\Enemy Hierachical FSM\Interfaces\BaseState.cs" />
-    <Compile Include="Assets\Scripts\Enemy Hierachical FSM\Interfaces\StateMachine.cs" />
-    <Compile Include="Assets\Scripts\Enemy Hierachical FSM\State\Hunting\Hunting.cs" />
+    <Compile Include="Assets\Scripts\Hierachical FSM\Interfaces\BaseState.cs" />
+    <Compile Include="Assets\Scripts\Hierachical FSM\Interfaces\StateMachine.cs" />
+    <Compile Include="Assets\Scripts\Hierachical FSM\State\Hunting\Hunting.cs" />
     <Compile Include="Assets\Scripts\Game Design\BurgerManager.cs" />
     <Compile Include="Assets\BrokenVector\LowPolyFencePack\Scripts\DoorToggle.cs" />
-    <Compile Include="Assets\Scripts\Enemy Hierachical FSM\State\Hunting\Idle.cs" />
+    <Compile Include="Assets\Scripts\Hierachical FSM\State\Hunting\Idle.cs" />
     <Compile Include="Assets\BrokenVector\LowPolyFencePack\Scripts\DoorController.cs" />
-    <Compile Include="Assets\Scripts\Enemy Hierachical FSM\State\Hunting\Moving.cs" />
+    <Compile Include="Assets\Scripts\Hierachical FSM\State\Hunting\Moving.cs" />
     <Compile Include="Assets\Scripts\Game Design\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Hierachical FSM\State Machines\FriendlySM.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Pixel Font - Tripfive\_README.txt" />

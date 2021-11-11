@@ -6,10 +6,11 @@ public class Hunting : BaseState
 {
     protected EnemySM _sm;
 
-
     public Hunting(string name, EnemySM stateMachine) : base(name, stateMachine)
     {
         _sm = stateMachine;
+
+        // Prop drill to child states
     }
 
     public override void UpdateLogic()

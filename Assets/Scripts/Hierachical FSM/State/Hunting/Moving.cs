@@ -13,6 +13,9 @@ public class Moving : Hunting
     public override void Enter()
     {
         base.Enter();
+
+
+        _sm.ChangeStateDialogue("I smell meat");
         _horizontalInput = 0f;
     }
 
@@ -42,6 +45,6 @@ public class Moving : Hunting
         _sm.rigidBody.velocity = _sm.friendlyDirection.normalized;
 
         
-        Debug.Log(_sm.friendlyDirection.normalized);
+        //Debug.Log(_sm.friendlyDirection.normalized);
     }
 }

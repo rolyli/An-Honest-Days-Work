@@ -15,6 +15,7 @@ public class Idle : Hunting
     {
         base.Enter();
 
+        _sm.ChangeStateDialogue("...");
         _sm.rigidBody.velocity = Vector3.zero;
     }
 

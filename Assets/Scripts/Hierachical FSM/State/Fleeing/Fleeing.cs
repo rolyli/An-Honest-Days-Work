@@ -12,6 +12,14 @@ public class Fleeing : BaseState
         _sm = stateMachine;
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+
+        _sm.ChangeStateDialogue("Catch me if you can!!");
+
+    }
+
     public override void UpdateLogic()
     {
         if (_sm.playerDistance > _sm.playerFleeDistance)

@@ -16,23 +16,29 @@ public class FriendlySM : StateMachine
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
     }
 
-    protected override void FixedUpdate()
+    protected override void Update()
     {
-        base.FixedUpdate();
+        base.Update();
 
         var rigidBody = gameObject.GetComponent<RigidBody>();
 
 
         // Calculate hitpoint reductions during collision and die
-        
-        foreach(GameObject enemy in enemies)
+
+
+        foreach (GameObject enemy in enemies)
         {
-            if ((enemy.transform.position - transform.position).magnitude < 5)
+            if (enemies != null)
             {
-                health -= 1;
+                if ((enemy.transform.position - transform.position).magnitude < 5)
+                {
+                    health -= 1;
+                }
             }
         }
-        
+
+
+
         transform.localScale = new Vector3(Mathf.Lerp(0.5f, 1.0f, health / maxHealth), Mathf.Lerp(0.5f, 1.0f, health / maxHealth), Mathf.Lerp(0.5f, 1.0f, health / maxHealth));
 
         if (health < 0)

@@ -9,13 +9,12 @@ public class EnemySM : StateMachine
     public Moving movingState;
     public Attacking attackingState;
     public Fleeing fleeingState;
-
+    public string stateName;
 
     // shared variables
     // for game logic
     private float maxHealth;
     public float health = 1000.0f;
-
 
     // for movement calculations
     public GameObject[] friendlies;
@@ -34,7 +33,14 @@ public class EnemySM : StateMachine
     public RigidBody rigidBody;
     GameObject player;
 
+    bool showStateName = true;
+    public GameObject textPrefab;
+    public GameObject stateNameGO;
 
+    public void ChangeStateDialogue(string text)
+    {
+        stateNameGO.GetComponent<TMPro.TextMeshPro>().SetText(text);
+    }
 
     private void Awake()
     {
@@ -43,17 +49,31 @@ public class EnemySM : StateMachine
         attackingState = new Attacking(this);
         fleeingState = new Fleeing(this);
 
+        if (showStateName == true)
+        {
+            stateNameGO = Instantiate(textPrefab, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z)
+            , Quaternion.identity);
+
+            // Make sure text gets deleted when parent (enemy) gets deleted
+            stateNameGO.transform.SetParent(gameObject.transform);
+            
+            //Debug.Log(stateNameGO.name);
+            //Debug.Log("Created: " + stateNameGO.GetComponent<TMPro.TextMeshPro>().text);
+        }
 
         maxHealth = health;
         rigidBody = gameObject.GetComponent<RigidBody>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        // Initialize status text above enemy
+
     }
-
-
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+
+        stateName = currentState.name;
 
         rigidBody = gameObject.GetComponent<RigidBody>();
         velocity = GetComponent<RigidBody>().velocity;
@@ -98,11 +118,20 @@ public class EnemySM : StateMachine
 
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        
+        // Update so that state name text is above the enemy
+        stateNameGO.transform.position = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
+    }
+
     protected override BaseState GetInitialState()
     {
         return idleState;
     }
 
+    /*
     private void OnGUI()
     {
         string name = currentState != null ? currentState.name : "(no current state)";
@@ -117,4 +146,5 @@ public class EnemySM : StateMachine
 
 
     }
+    */
 }

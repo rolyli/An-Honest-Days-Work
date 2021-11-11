@@ -226,7 +226,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
 
                         collisionBuffer.Add(collision);
 
-                        Debug.Log(collision.BoxA.name + "||" + collision.BoxB.name + "|| impulse: " + collision.Impulse + " " + impulse);
+                        //Debug.Log(collision.BoxA.name + "||" + collision.BoxB.name + "|| impulse: " + collision.Impulse + " " + impulse);
 
 
                         // legacy code

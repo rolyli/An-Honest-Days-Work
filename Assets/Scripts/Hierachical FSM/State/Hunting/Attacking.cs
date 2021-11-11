@@ -13,15 +13,26 @@ public class Attacking : Hunting
     {
         base.Enter();
 
+        _sm.ChangeStateDialogue("RAWR!!!");
         _sm.rigidBody.velocity = Vector3.zero;
+        
+        
+
+
+}
+
+private IEnumerator WaitThenChangeState(BaseState state, float time)
+    {
+        yield return new WaitForSeconds(time);
+        stateMachine.ChangeState(state);
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
 
-        // transition to 
 
+        // transition
 
         if (_sm.friendlyFound == false)
         {
@@ -31,12 +42,16 @@ public class Attacking : Hunting
         // Rigid bodies sticking to each other sometimes so this is needed to keep fox at a distance from friendlies
         if ((_sm.friendlyDistance > _sm.friendlyUnStickDistance) && (_sm.friendlyDistance < _sm.friendlyAttackDistance))
         {
-            _sm.rigidBody.velocity = -_sm.friendlyDirection;
+            _sm.rigidBody.velocity = Vector3.zero;
         }
 
         if (_sm.friendlyDistance > 3)
         {
-            stateMachine.ChangeState(_sm.movingState);
+            // Wait then change state, otherwise it will flip back and forth between states too quickly
+            
+            // stateMachine.ChangeState(_sm.movingState);
+            WaitThenChangeState(_sm.movingState, 3);
+
         }
 
     }

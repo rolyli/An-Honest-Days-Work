@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0c5eca57905ce64cb597349530ac5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateName: 
   health: 250
   friendlies: []
   friendlyFound: {fileID: 0}
@@ -144,3 +145,4 @@ MonoBehaviour:
   playerFleeDistance: 15
   velocity: {x: 0, y: 0, z: 0}
   rigidBody: {fileID: 0}
+  textPrefab: {fileID: 2602950930862358866, guid: 657aefb0be2f0b74d8826f6c0bf47950, type: 3}

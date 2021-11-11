@@ -7,7 +7,7 @@ public class StateMachine : MonoBehaviour
     public BaseState currentState;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         currentState = GetInitialState();
 
@@ -18,7 +18,7 @@ public class StateMachine : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (currentState != null)
         {

@@ -8,7 +8,11 @@ public class GameManager : MonoBehaviour
     // Every spawnTime seconds, there is stochasticRate rate of an enemy being spawned
     public int maxEnemyCount = 20;
     public int maxBurgerCount = 3;
-    public float burgerStochasticRate = 0.5f;
+
+    public float enemyStochasticRate;
+    public float burgerStochasticRate = 0.7f;
+
+    public float enemyMaxSpawnRate = 0.7f;
 
     public float enemySpawnTime = 10.0f;
     public float burgerSpawnTime = 20.0f;
@@ -47,8 +51,8 @@ public class GameManager : MonoBehaviour
 
 
         // Probability of spawning foxes is linear interpolated by ratio of number of foxes to max foxes allowed
-        var stochasticRate = Mathf.Lerp(0.0f, 1.0f, enemyList.Length / maxEnemyCount);
-        if ((Random.value > stochasticRate) & (burgerList.Length < 4))
+        enemyStochasticRate = Mathf.Lerp(1 - enemyMaxSpawnRate, 1.0f, (float) enemyList.Length / (float) maxEnemyCount);
+        if ((Random.value > enemyStochasticRate) & (burgerList.Length < 4))
         {
             GameObject enemy = Instantiate(enemyPrefab, RandomPosition(), Quaternion.identity);
             enemy.GetComponent<RigidBody>().velocity = Random.insideUnitSphere;

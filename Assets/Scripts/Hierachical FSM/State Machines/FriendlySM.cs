@@ -6,20 +6,19 @@ public class FriendlySM : StateMachine
 {
     private float maxHealth;
     public float health = 1000;
-    GameObject player;
-    GameObject[] enemies;
+
 
     private void Awake()
     {
         maxHealth = health;
-        player = GameObject.FindGameObjectWithTag("Player");
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
     }
 
     protected override void Update()
     {
         base.Update();
 
+        var player = GameObject.FindGameObjectWithTag("Player");
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
         var rigidBody = gameObject.GetComponent<RigidBody>();
 
 

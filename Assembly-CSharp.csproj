@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{9EFBC8A9-8C05-EE71-DE23-CB262368F1BB}</ProjectGuid>
+    <ProjectGuid>{42A05362-59D5-897A-4944-B409B83CA519}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Hierachical FSM\State\Fleeing\Fleeing.cs" />
     <Compile Include="Assets\Scripts\Collision Resolution\RigidBody.cs" />
     <Compile Include="Assets\PwhSoft\Low Poly Fast Food\Demo\Scripts\Spin.cs" />
+    <Compile Include="Assets\Prefabs\TextMeshProThing.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\Interfaces\BaseState.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\Interfaces\StateMachine.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\State\Hunting\Hunting.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Assets\Scripts\Hierachical FSM\State\Hunting\Moving.cs" />
     <Compile Include="Assets\Scripts\Game Design\GameManager.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\State Machines\FriendlySM.cs" />
-    <Compile Include="Assets\Prefabs\TextMeshProThing.cs" />
+    <Compile Include="Assets\Scripts\Game Design\UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -677,43 +678,43 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.VSCode.Editor.csproj">
-      <Project>{20346AE4-00E4-38F9-B696-BCBC71DC0EC4}</Project>
+      <Project>{E25B2D82-488E-ABB3-FDC3-846D3955055B}</Project>
       <Name>Unity.VSCode.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
-      <Project>{4DC551D5-0A95-EEFA-4426-AB570E69B22D}</Project>
+      <Project>{1585C9F8-8FE8-F281-4E38-C9240FF5DCD2}</Project>
       <Name>Unity.TextMeshPro.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.VisualStudio.Editor.csproj">
-      <Project>{62E981BD-DBEE-353A-EA47-8421991053FA}</Project>
+      <Project>{4648B170-A92A-8DF1-21CC-B934A65D00D8}</Project>
       <Name>Unity.VisualStudio.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Timeline.Editor.csproj">
-      <Project>{8ED5EAD6-0571-369E-5F88-D76988DA40C5}</Project>
+      <Project>{6E6A68CA-EB0E-BFB2-E939-88085C4BC319}</Project>
       <Name>Unity.Timeline.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Timeline.csproj">
-      <Project>{F69A94D8-5D06-CF2D-C166-2DFD841B8662}</Project>
+      <Project>{77DCF572-3F24-7562-1743-94F62DD5770B}</Project>
       <Name>Unity.Timeline</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.csproj">
-      <Project>{85D38820-70F1-6744-189C-96AD4FE337D5}</Project>
+      <Project>{FAB0F744-3C64-0F65-B627-61D162BC650C}</Project>
       <Name>Unity.TextMeshPro</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{76033A1F-4149-80B9-9975-3CC42B9C6008}</Project>
+      <Project>{A34F82F0-4524-EFE7-2526-F033446BC74C}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.PlasticSCM.Editor.csproj">
-      <Project>{BB562A2E-B951-3220-6ED5-8415D008EFAB}</Project>
+      <Project>{C5884BE9-20A6-7279-B80A-471FE9029933}</Project>
       <Name>Unity.PlasticSCM.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Rider.Editor.csproj">
-      <Project>{3B5726CA-8A41-A842-E1D5-703987800E66}</Project>
+      <Project>{54104BC2-4C10-6A68-AB60-F34F8C52AE53}</Project>
       <Name>Unity.Rider.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{BA8337B3-AA1D-F7F2-7FAD-657F3937C718}</Project>
+      <Project>{8E769CC5-71E3-1D50-1CD9-1CBB76AF6009}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
   </ItemGroup>

@@ -66,6 +66,7 @@
     <Compile Include="Assets\PwhSoft\Low Poly Fast Food\Demo\Scripts\Spin.cs" />
     <Compile Include="Assets\Prefabs\TextMeshProThing.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\Interfaces\BaseState.cs" />
+    <Compile Include="Assets\Scripts\Game Design\UIManager.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\Interfaces\StateMachine.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\State\Hunting\Hunting.cs" />
     <Compile Include="Assets\Scripts\Game Design\BurgerManager.cs" />
@@ -75,7 +76,7 @@
     <Compile Include="Assets\Scripts\Hierachical FSM\State\Hunting\Moving.cs" />
     <Compile Include="Assets\Scripts\Game Design\GameManager.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\State Machines\FriendlySM.cs" />
-    <Compile Include="Assets\Scripts\Game Design\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

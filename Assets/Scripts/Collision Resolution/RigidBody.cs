@@ -19,12 +19,15 @@ public class RigidBody : MonoBehaviour
     public float impulse;
     public bool isColliding = false;
     public GameObject collisionObject;
-    
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        // Lazy instantiate AABBAABBCollisionManager Singleton
+        AABBAABBCollisionManager.Instance.Singleton();
+
         collisionBuffer = new List<Collision>();
     }
 
@@ -35,8 +38,6 @@ public class RigidBody : MonoBehaviour
         if (gravity == true)
         {
             velocity += -transform.up;
-            AABBAABBCollisionManager collisionManager = GameObject.FindObjectOfType<AABBAABBCollisionManager>();
-            
         }
         velocity += acceleration * Time.fixedDeltaTime;
         transform.position += velocity * Time.fixedDeltaTime;

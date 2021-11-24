@@ -47,7 +47,8 @@ public class Collision
         if (Object.ReferenceEquals(this.BoxA, GO) || Object.ReferenceEquals(this.BoxB, GO))
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
@@ -55,10 +56,18 @@ public class Collision
     }
 }
 
-public class AABBAABBCollisionManager : MonoBehaviour
+// Singleton object that detects and resolves collisions between AABB objects
+// Make sure to lazy instantiate from any dependent classes such as RigidBody by calling AABBAABBCollisionManager.Instance.Singleton()
+public class AABBAABBCollisionManager : Singleton<AABBAABBCollisionManager>
 {
-    public List<GameObject> AABBObjects;
+    public List<GameObject> AABBObjects = new List<GameObject>();
     public List<Collision> collisionBuffer;
+
+    // Lazy instantiate within RigidBody
+    public bool Singleton()
+    {
+        return true;
+    }
 
     // Start is called before the first frame update
     // Initialize AABBObjects array
@@ -68,12 +77,6 @@ public class AABBAABBCollisionManager : MonoBehaviour
         collisionBuffer = new List<Collision>();
 
 
-        //todo: breaks if object has two box collider components, check for this condition
-        BoxCollider[] rigidBodyArray = GameObject.FindObjectsOfType<BoxCollider>();
-        foreach (BoxCollider rigidBody in rigidBodyArray)
-        {
-            AABBObjects.Add(rigidBody.gameObject);
-        }
     }
 
     // Check collision and if collision is occuring, return CollisionInfo object to be consumed by ResolveCollision method
@@ -221,7 +224,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
                         // Collision events in the buffer is sent to its respective game object collision buffer
                         // Game object can check if collision occured with specific game object using Collision.CheckReference()
 
-                        Collision collision = new Collision(collisionInfo.normal, collisionInfo.penetration, impulse, 
+                        Collision collision = new Collision(collisionInfo.normal, collisionInfo.penetration, impulse,
                             rigidBodyA, rigidBodyB, AABBObjects[i], AABBObjects[j]);
 
                         collisionBuffer.Add(collision);
@@ -247,6 +250,7 @@ public class AABBAABBCollisionManager : MonoBehaviour
             }
         }
 
+        // Dispatch collisions to respective game objects for game logic such as hitpoint calculations from impulse
         foreach (Collision collision in collisionBuffer)
         {
             foreach (GameObject AABBObject in AABBObjects)

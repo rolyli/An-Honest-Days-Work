@@ -248,21 +248,21 @@ public class AABBAABBCollisionManager : Singleton<AABBAABBCollisionManager>
                     }
                 }
             }
-        }
 
-        // Dispatch collisions to respective game objects for game logic such as hitpoint calculations from impulse
-        foreach (Collision collision in collisionBuffer)
-        {
-            foreach (GameObject AABBObject in AABBObjects)
+            // Dispatch collisions to respective game objects for game logic such as hitpoint calculations from impulse
+            foreach (Collision collision in collisionBuffer)
             {
-                if (Object.ReferenceEquals(AABBObject, collision.BoxA))
+                foreach (GameObject AABBObject in AABBObjects)
                 {
-                    collision.RigidBodyA.collisionBuffer.Add(collision);
-                }
+                    if (Object.ReferenceEquals(AABBObject, collision.BoxA))
+                    {
+                        collision.RigidBodyA.collisionBuffer.Add(collision);
+                    }
 
-                if (Object.ReferenceEquals(AABBObject, collision.BoxB))
-                {
-                    collision.RigidBodyB.collisionBuffer.Add(collision);
+                    if (Object.ReferenceEquals(AABBObject, collision.BoxB))
+                    {
+                        collision.RigidBodyB.collisionBuffer.Add(collision);
+                    }
                 }
             }
         }

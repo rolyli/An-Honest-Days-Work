@@ -32,6 +32,7 @@ public class EnemySM : StateMachine
     public Vector3 velocity;
     public RigidBody rigidBody;
     GameObject player;
+    GameObject friendlyAI;
 
     bool showStateName = true;
     public GameObject textPrefab;
@@ -64,6 +65,8 @@ public class EnemySM : StateMachine
         maxHealth = health;
         rigidBody = gameObject.GetComponent<RigidBody>();
         player = GameObject.FindGameObjectWithTag("Player");
+        friendlyAI = GameObject.FindGameObjectWithTag("FriendlyAI");
+
 
         // Initialize status text above enemy
 
@@ -83,7 +86,7 @@ public class EnemySM : StateMachine
         // Check collision, calculate hitpoint reductions
         foreach (Collision collision in rigidBody.collisionBuffer)
         {
-            if (collision.CheckReference(player))
+            if (collision.CheckReference(player) || collision.CheckReference(friendlyAI))
             {
 
                 health -= Mathf.Abs(collision.Impulse * 10);

@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - UI
   - Burger
+  - FriendlyAI
+  - Cow
   layers:
   - Default
   - TransparentFX

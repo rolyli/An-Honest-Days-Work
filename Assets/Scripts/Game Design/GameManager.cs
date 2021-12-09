@@ -83,11 +83,12 @@ public class GameManager : MonoBehaviour
         if (friendlyList.Length == 0)
         {
             lose = true;
-            // tc: lose logic
+            SceneManager.LoadScene("Overworld");
+            Debug.Log("YOU LOSE");
         }
 
         // Destroy fox if they fall off the map
-        foreach(GameObject fox in enemyList)
+        foreach (GameObject fox in enemyList)
         {
             if (fox.transform.position.y < 0) {
                 Object.Destroy(fox);

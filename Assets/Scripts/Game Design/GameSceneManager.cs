@@ -28,7 +28,7 @@ public class GameSceneManager : MonoBehaviour
     void Update()
     {
         float distance = (farm1.transform.position - player.transform.position).magnitude;
-        if (distance < 2)
+        if (distance < 5)
         {
             SceneManager.LoadScene("Farm 1");
         }

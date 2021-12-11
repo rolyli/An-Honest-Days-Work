@@ -132,9 +132,7 @@ MonoBehaviour:
   e: 1
   gravity: 1
   resolveCollision: 1
-  monitorCollisionObjectPair: {fileID: 0}
   impulse: 0
-  isColliding: 0
   collisionObject: {fileID: 0}
 --- !u!65 &-651290448038838960
 BoxCollider:

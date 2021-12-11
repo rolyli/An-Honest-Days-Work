@@ -18,14 +18,14 @@ public class GameManager : MonoBehaviour
     public float burgerSpawnTime = 20.0f;
 
     public GameObject[] enemyList;
-    public GameObject[] friendlyList;
     public GameObject[] burgerList;
 
     private GameObject player;
 
     public GameObject enemyPrefab;
     public GameObject positiveFeedbackPrefab;
-    
+
+    public List<GameObject> friendlyList = new List<GameObject>();
 
     public bool win = false;
     public bool lose = false;
@@ -70,8 +70,12 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update()
-    {
-        friendlyList = GameObject.FindGameObjectsWithTag("Friendly");
+    {            
+        foreach (GameObject friendly in GameObject.FindGameObjectsWithTag("Friendly"))
+        {
+            friendlyList.Add(friendly);
+        }
+
         enemyList = GameObject.FindGameObjectsWithTag("Enemy");
 
         if (enemyList.Length == 0)
@@ -80,7 +84,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Overworld");
         }
 
-        if (friendlyList.Length == 0)
+        if (friendlyList.Count == 0)
         {
             lose = true;
             SceneManager.LoadScene("Overworld");
@@ -94,5 +98,9 @@ public class GameManager : MonoBehaviour
                 Object.Destroy(fox);
             }
         }
+
+        Debug.Log(friendlyList.Count);
+        friendlyList.Clear();
+
     }
 }

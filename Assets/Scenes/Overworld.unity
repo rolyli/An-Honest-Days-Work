@@ -1438,9 +1438,7 @@ MonoBehaviour:
   e: 1
   gravity: 1
   resolveCollision: 1
-  monitorCollisionObjectPair: {fileID: 3818703929437895898, guid: 2821b6d382920904a9dc71ab34f2490a, type: 3}
   impulse: 0
-  isColliding: 0
   collisionObject: {fileID: 0}
 --- !u!65 &624993826
 BoxCollider:
@@ -2478,6 +2476,64 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1316526420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1316526422}
+  - component: {fileID: 1316526421}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1316526421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316526420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c219a30d130dc9c40ae6ef18f76a85f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Background music
+    clip: {fileID: 8300000, guid: 8713a78192f38904a954dfe7cd35afb3, type: 3}
+    volume: 0.099
+    pitch: 1
+    playOnAwake: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Donk
+    clip: {fileID: 8300000, guid: d9685103085d6bd41a0996136b8bbc2c, type: 3}
+    volume: 0.772
+    pitch: 1
+    playOnAwake: 0
+    loop: 0
+    source: {fileID: 0}
+--- !u!4 &1316526422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316526420}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.4122505, y: -1.176403, z: 0.65992785}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1317004307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2908,9 +2964,7 @@ MonoBehaviour:
   e: 1
   gravity: 1
   resolveCollision: 1
-  monitorCollisionObjectPair: {fileID: 0}
   impulse: 0
-  isColliding: 0
   collisionObject: {fileID: 0}
 --- !u!114 &1509176941
 MonoBehaviour:
@@ -5377,9 +5431,7 @@ MonoBehaviour:
   e: 1
   gravity: 1
   resolveCollision: 1
-  monitorCollisionObjectPair: {fileID: 3818703929437895898, guid: 2821b6d382920904a9dc71ab34f2490a, type: 3}
   impulse: 0
-  isColliding: 0
   collisionObject: {fileID: 0}
 --- !u!1001 &8185873393520829144
 PrefabInstance:

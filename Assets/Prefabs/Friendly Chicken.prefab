@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: -3101209074148281312}
   - component: {fileID: -8242662730569158164}
   - component: {fileID: -858258962390419184}
+  - component: {fileID: 6036154377101456166}
   m_Layer: 0
   m_Name: Friendly Chicken
-  m_TagString: Untagged
+  m_TagString: FriendlyChicken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +32,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.9998778, z: -0, w: -0.01563261}
   m_LocalPosition: {x: 16.23, y: 2.27, z: -12.213779}
   m_LocalScale: {x: 3.7337, y: 3.4987, z: 2.848}
-  m_Children: []
+  m_Children:
+  - {fileID: 360610259012559597}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -181.791, z: 0}
@@ -115,9 +117,7 @@ MonoBehaviour:
   e: 1
   gravity: 1
   resolveCollision: 1
-  monitorCollisionObjectPair: {fileID: 0}
   impulse: 0
-  isColliding: 0
   collisionObject: {fileID: 0}
 --- !u!65 &-858258962390419184
 BoxCollider:
@@ -132,3 +132,49 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3280458, y: 0.61508566, z: 0.53307426}
   m_Center: {x: 0, y: 0.30754283, z: -0.102514245}
+--- !u!114 &6036154377101456166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3413500757998132373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e982991c06d03b044b2e5d052044b40a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cohesionNeighbors: []
+  smoothDamp: 0
+  acceleration: {x: 0, y: 0, z: 0}
+  rigidBody: {fileID: 0}
+--- !u!1 &6503019117382671572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 360610259012559597}
+  m_Layer: 0
+  m_Name: ChickenTag
+  m_TagString: FriendlyChicken
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &360610259012559597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6503019117382671572}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3413500757998485685}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

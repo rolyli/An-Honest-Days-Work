@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7084716543084274669}
   - component: {fileID: 7084716543085077453}
   - component: {fileID: 7084716543086043405}
+  - component: {fileID: 7470551829583263435}
   - component: {fileID: 7084716541744714547}
   - component: {fileID: 7084716541744714548}
   - component: {fileID: 7084716541744714559}
@@ -84,6 +85,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7470551829583263435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084716543083855821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d4a5b80a3c71a4485593ef7cb323d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &7084716541744714547
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -115,9 +128,7 @@ MonoBehaviour:
   e: 1
   gravity: 1
   resolveCollision: 1
-  monitorCollisionObjectPair: {fileID: 3818703929437895898, guid: 2821b6d382920904a9dc71ab34f2490a, type: 3}
   impulse: 0
-  isColliding: 0
   collisionObject: {fileID: 0}
 --- !u!114 &7084716541744714559
 MonoBehaviour:
@@ -146,3 +157,4 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   rigidBody: {fileID: 0}
   textPrefab: {fileID: 2602950930862358866, guid: 657aefb0be2f0b74d8826f6c0bf47950, type: 3}
+  stateNameGO: {fileID: 0}

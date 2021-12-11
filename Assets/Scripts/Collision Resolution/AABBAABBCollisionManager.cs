@@ -255,6 +255,7 @@ public class Collision
     public RigidBody RigidBodyB { get; set; }
 
     // Used by game object to check if collision with a certain game object has occured
+    // e.g. 
     public bool CheckReference(GameObject GO)
     {
         if (Object.ReferenceEquals(this.BoxA, GO) || Object.ReferenceEquals(this.BoxB, GO))

@@ -6,12 +6,14 @@ public class MinMaxAIMoves
 {
     public enum MaximizingMoves
     {
-        Attack,
-        Defend
+        AttackFox,
+        DefendCow,
+        DefendChicken
     }
     public enum MinimizingMoves
     {
-        Attack,
+        AttackCow,
+        AttackChicken,
         Flee
     }
 }

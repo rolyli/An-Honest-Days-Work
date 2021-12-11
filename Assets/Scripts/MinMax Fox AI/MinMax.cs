@@ -8,14 +8,20 @@ using static MinMaxAIMoves;
 // Calculate heuristic value of GameState node
 // Setting different AIType changes heuristic values of the agents
 // For example, with AIType.Defensive, defending farm animals are valued more than hunting foxes
-// Node heuristic value is calculated as (friendlies.Count * this.heuristicValues.cowValue) - (enemies.Count * this.heuristicValues.foxValue) in GameState.Evaluate()
-public class MinMaxAI : MonoBehaviour
+// Chickens always valued more than cows due to lower HP
+// Node heuristic value is calculated as (cows.Count * this.heuristicValues.cowValue) + (chickens.count * this.heuristicValues.chickenValue) - (enemies.Count * this.heuristicValues.foxValue) in GameState.Evaluate()
+public class MinMax
 {
-    public GameState gameState;
+    public GameState parentGameState;
+
+    public MinMax(GameState parentGameState)
+    {
+        this.parentGameState = parentGameState;
+    }
 
     void RecurseFromMaxNode(GameState childGameState, GameState parentGameState, int depth, MaximizingMoves move)
     {
-        MinMax(childGameState, depth - 1, false);
+        GenerateMinMaxTree(childGameState, depth - 1, false);
         childGameState.Evaluate();
 
         // Debug.Log($"eval: {childGameState.Eval}");
@@ -28,19 +34,19 @@ public class MinMaxAI : MonoBehaviour
     }
     void RecurseFromMinNode(GameState childGameState, GameState parentGameState, int depth)
     { 
-        MinMax(childGameState, depth - 1, true);
+        GenerateMinMaxTree(childGameState, depth - 1, true);
         childGameState.Evaluate();
 
-        // Debug.Log($"eval: {childGameState.Eval}");
+        //Debug.Log($"eval: {childGameState.Eval}, maxeval: {childGameState.MaxEval}");
 
-        if (childGameState.Eval < parentGameState.MinEval)
+        if (childGameState.Eval < parentGameState.MaxEval)
         {
-            parentGameState.MinEval = childGameState.Eval;
+            parentGameState.MaxEval = childGameState.Eval;
         }
     }
 
     // Recursive MinMax algorithm
-    GameState MinMax(GameState parentGameState, int depth, bool maximizingPlayer)
+    public GameState GenerateMinMaxTree(GameState parentGameState, int depth, bool maximizingPlayer)
     { 
         // End of tree reached
         if (depth == 0)
@@ -57,25 +63,40 @@ public class MinMaxAI : MonoBehaviour
             {                
                 switch (move)
                 {
-                    case MaximizingMoves.Attack:
+                    case MaximizingMoves.AttackFox:
                         {
                             // Assume attacking the enemy also results in loss of friendly due to not
                             GameState childGameState = GameState.Clone(parentGameState);
 
                             childGameState.AttackEnemy();
-                            childGameState.AttackFriendly();
+                            childGameState.AttackFriendlyCow();
+                            childGameState.AttackFriendlyChicken();
 
                             //Debug.Log($"childgamestate enemies: {childGameState.enemies.Count} parentgamestate enemies: {parentGameState.enemies.Count}");
+
+
 
                             RecurseFromMaxNode(childGameState, parentGameState, depth, move);
                         }
                         break;
 
-                    case MaximizingMoves.Defend:
+                    case MaximizingMoves.DefendCow:
                         {
-                            // Defending results in no change in game state as of yet
-
+                            // Assume defending cow results in loss of chicken
                             GameState childGameState = GameState.Clone(parentGameState);
+
+                            childGameState.AttackFriendlyChicken();
+
+                            RecurseFromMaxNode(childGameState, parentGameState, depth, move);
+                        }
+                        break;
+
+                    case MaximizingMoves.DefendChicken:
+                        {
+                            // Assume defending chicken results in loss of cow
+                            GameState childGameState = GameState.Clone(parentGameState);
+
+                            childGameState.AttackFriendlyCow();
 
                             RecurseFromMaxNode(childGameState, parentGameState, depth, move);
                         }
@@ -93,20 +114,27 @@ public class MinMaxAI : MonoBehaviour
         // Minimizing player
         else
         {
-            parentGameState.MinEval = GameState.inf;
+            parentGameState.MaxEval = GameState.inf;
 
             foreach (MinimizingMoves move in Enum.GetValues(typeof(MinimizingMoves)))
             {
                 switch (move)
                 {
-                    case MinimizingMoves.Attack:
+                    case MinimizingMoves.AttackCow:
                         {
-                            // Assume attacking the enemy also results in loss of friendly due to not
                             GameState childGameState = GameState.Clone(parentGameState);
 
-                            childGameState.AttackFriendly();
+                            childGameState.AttackFriendlyCow();
 
-                            //Debug.Log($"childgamestate enemies: {childGameState.enemies.Count} parentgamestate enemies: {parentGameState.enemies.Count}");
+                            RecurseFromMinNode(childGameState, parentGameState, depth);
+                        }
+                        break;
+
+                    case MinimizingMoves.AttackChicken:
+                        {
+                            GameState childGameState = GameState.Clone(parentGameState);
+
+                            childGameState.AttackFriendlyChicken();
 
                             RecurseFromMinNode(childGameState, parentGameState, depth);
                         }
@@ -114,8 +142,7 @@ public class MinMaxAI : MonoBehaviour
 
                     case MinimizingMoves.Flee:
                         {
-                            // Fleeing  results in no change in game state as of yet
-
+                            // Fleeing  results in no change of GameState
                             GameState childGameState = GameState.Clone(parentGameState);
 
                             RecurseFromMinNode(childGameState, parentGameState, depth);
@@ -130,17 +157,5 @@ public class MinMaxAI : MonoBehaviour
             return parentGameState;
         }
 
-    }
-    private void Start()
-    {
-        gameState = new GameState();
-    }
-    private void Update()
-    {
-        gameState = new GameState();
-        var minMax = MinMax(gameState, 5, true);
-
-        //Debug.Log($"{gameState.friendlies.Count} {gameState.enemies.Count}");
-        //Debug.Log($"{minMax.MaxEval}, friendly: {gameState.friendlies.Count} enemey: {gameState.enemies.Count} {minMax.MaxEvalMove}");
     }
 }

@@ -12,25 +12,33 @@ using static MinMaxAIMoves;
 
 public class GameState
 {
-    public List<GameObject> friendlies { get; set; }
+    public List<GameObject> friendlyCows { get; set; }
+    public List<GameObject> friendlyChickens { get; set; }
     public List<GameObject> enemies { get; set; }
 
     public int Eval;
     public int MaxEval;
-    public int MinEval;
+
     public static int inf = 9999999; // winning or losing condition
     public HeuristicValues heuristicValues; // enemy or fox heuristic values
     public MaximizingMoves MaxEvalMove; // the actual move to take as the AI
 
     public GameState()
     {
-        this.heuristicValues = new HeuristicValues(HeuristicValues.AIType.Defensive);
-        friendlies = new List<GameObject>();
+        this.heuristicValues = new HeuristicValues(HeuristicValues.AIType.Aggressive);
+        friendlyCows = new List<GameObject>();
+        friendlyChickens = new List<GameObject>();
+
         enemies = new List<GameObject>();
 
-        foreach (GameObject friendly in GameObject.FindGameObjectsWithTag("Friendly"))
+        foreach (GameObject friendlyCow in GameObject.FindGameObjectsWithTag("Friendly"))
         {
-            friendlies.Add(friendly);
+            friendlyCows.Add(friendlyCow);
+        }
+
+        foreach (GameObject friendlyChicken in GameObject.FindGameObjectsWithTag("FriendlyChicken"))
+        {
+            friendlyChickens.Add(friendlyChicken);
         }
 
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -42,14 +50,14 @@ public class GameState
     // This constructor is used for cloning parentGameState into childGameState
     // e.g. GameState childGameState = GameState.Clone(parentGameState);
 
-    public GameState(List<GameObject> friendlies, List<GameObject> enemies, int eval, int maxEval, int minEval, MaximizingMoves maxEvalMove)
+    public GameState(List<GameObject> friendlyCows, List<GameObject> friendlyChickens, List<GameObject> enemies, int eval, int maxEval, MaximizingMoves maxEvalMove)
     {
         this.heuristicValues = new HeuristicValues(HeuristicValues.AIType.Defensive);
-        this.friendlies = friendlies;
+        this.friendlyCows = friendlyCows;
+        this.friendlyChickens = friendlyChickens;
         this.enemies = enemies;
         this.Eval = eval;
         this.MaxEval = maxEval;
-        this.MinEval = minEval;
         this.MaxEvalMove = maxEvalMove;
     }
 
@@ -61,7 +69,7 @@ public class GameState
         // Debug.Log($"evaluater... friendly count {friendlies.Count} enemyCount {enemies.Count}");
         
         // Loss condition
-        if (friendlies.Count == 0)
+        if (friendlyCows.Count == 0)
         {
             this.Eval = -inf;
         }
@@ -75,16 +83,25 @@ public class GameState
         // Heuristic evaluation
         else
         {
-            Eval = (friendlies.Count * this.heuristicValues.cowValue) - (enemies.Count * this.heuristicValues.foxValue);
+            Eval = (((friendlyCows.Count * this.heuristicValues.cowValue) + (friendlyChickens.Count * this.heuristicValues.chickenValue))
+                - (enemies.Count * this.heuristicValues.foxValue));
         }
         return this;
     }
 
-    public void AttackFriendly()
+    public void AttackFriendlyCow()
     {
-        if (friendlies.Count > 0)
+        if (friendlyCows.Count > 0)
         {
-            friendlies.RemoveAt(friendlies.Count - 1);
+            friendlyCows.RemoveAt(friendlyCows.Count - 1);
+        }
+    }
+
+    public void AttackFriendlyChicken()
+    {
+        if (friendlyChickens.Count > 0)
+        {
+            friendlyChickens.RemoveAt(friendlyChickens.Count - 1);
         }
     }
 
@@ -101,18 +118,24 @@ public class GameState
     public static GameState Clone(GameState parentGameState)
     {
         List<GameObject> childEnemies = new List<GameObject>();
-        List<GameObject> childFriendlies = new List<GameObject>();
+        List<GameObject> childFriendlyCows = new List<GameObject>();
+        List<GameObject> childFriendlyChickens = new List<GameObject>();
 
         foreach (GameObject enemy in parentGameState.enemies)
         {
             childEnemies.Add(enemy);
         }
 
-        foreach (GameObject friendly in parentGameState.friendlies)
+        foreach (GameObject friendlyCow in parentGameState.friendlyCows)
         {
-            childFriendlies.Add(friendly);
+            childFriendlyCows.Add(friendlyCow);
         }
 
-        return new GameState(childFriendlies, childEnemies, parentGameState.Eval, parentGameState.MaxEval, parentGameState.MinEval, parentGameState.MaxEvalMove);
+        foreach (GameObject friendlyChicken in parentGameState.friendlyChickens)
+        {
+            childFriendlyChickens.Add(friendlyChicken);
+        }
+
+        return new GameState(childFriendlyCows, childFriendlyChickens, childEnemies, parentGameState.Eval, parentGameState.MaxEval, parentGameState.MaxEvalMove);
     }
 }

@@ -9,10 +9,15 @@ public class RigidBody : MonoBehaviour
     public Vector3 acceleration;
     public float e = 1.0f;
     public bool gravity = false;
-    public bool resolveCollision = true;
     public List<Collision> collisionBuffer;
     public float impulse;
     public GameObject collisionObject;
+    [Header("Workaround for flocks")]
+    [SerializeField]
+    private bool disableAcceleration = false;
+    public bool resolveCollision = true;
+    public bool detectCollision = true;
+
 
 
 
@@ -33,6 +38,13 @@ public class RigidBody : MonoBehaviour
         {
             velocity += -transform.up;
         }
+
+        // Workaround for flocks as they don't use rigid body euler integration
+        if (disableAcceleration)
+        {
+            acceleration = Vector3.zero;
+        }
+
         velocity += acceleration * Time.fixedDeltaTime;
         transform.position += velocity * Time.fixedDeltaTime;
     }

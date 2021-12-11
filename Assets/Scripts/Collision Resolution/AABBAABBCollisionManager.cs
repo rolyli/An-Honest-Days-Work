@@ -133,11 +133,15 @@ public class AABBAABBCollisionManager : Singleton<AABBAABBCollisionManager>
     void FixedUpdate()
     {
         // Update collider object list every frame
+        
         AABBObjects.Clear();
-        BoxCollider[] rigidBodyArray = GameObject.FindObjectsOfType<BoxCollider>();
-        foreach (BoxCollider rigidBody in rigidBodyArray)
+        RigidBody[] rigidBodyArray = GameObject.FindObjectsOfType<RigidBody>();
+        foreach (RigidBody rigidBody in rigidBodyArray)
         {
-            AABBObjects.Add(rigidBody.gameObject);
+            if (rigidBody.detectCollision)
+            {
+                AABBObjects.Add(rigidBody.gameObject);
+            }
         }
 
         // Check collision between every item

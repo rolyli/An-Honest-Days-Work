@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6036154377101456166}
   m_Layer: 0
   m_Name: Friendly Chicken
-  m_TagString: FriendlyChicken
+  m_TagString: Friendly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad2ff93618706a45a6fd0a5de754f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1000
+  health: 100
 --- !u!114 &-8242662730569158164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,9 +116,11 @@ MonoBehaviour:
   acceleration: {x: 0, y: 0, z: 0}
   e: 1
   gravity: 1
-  resolveCollision: 1
   impulse: 0
   collisionObject: {fileID: 0}
+  disableAcceleration: 1
+  resolveCollision: 1
+  detectCollision: 1
 --- !u!65 &-858258962390419184
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -130,7 +132,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.3280458, y: 0.61508566, z: 0.53307426}
+  m_Size: {x: 0.5, y: 0.74, z: 0.84}
   m_Center: {x: 0, y: 0.30754283, z: -0.102514245}
 --- !u!114 &6036154377101456166
 MonoBehaviour:
@@ -145,8 +147,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cohesionNeighbors: []
-  smoothDamp: 0
-  acceleration: {x: 0, y: 0, z: 0}
+  avoidanceNeighbors: []
+  alignmentNeighbors: []
+  smoothDamp: 1
+  velocity: {x: 0, y: 0, z: 0}
+  speed: 0.5
   rigidBody: {fileID: 0}
 --- !u!1 &6503019117382671572
 GameObject:

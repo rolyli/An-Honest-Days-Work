@@ -6,8 +6,24 @@ public class Flock : MonoBehaviour
 {
     public List<FlockUnit> chickens = new List<FlockUnit>();
 
+    [Header("Distances")]
     [Range(0, 10)]
     public int cohesionDistance;
+    [Range(0, 10)]
+    public int avoidanceDistance;
+    [Range(0, 10)]
+    public int alignmentDistance;
+
+    [Header("Weights")]
+    [Range(0, 10)]
+    public float cohesionWeight;
+    [Range(0, 10)]
+    public float avoidanceWeight;
+    [Range(0, 10)]
+    public float alignmentWeight;
+
+    public float minSpeed;
+    public float maxSpeed;
 
     private void Start()
     {

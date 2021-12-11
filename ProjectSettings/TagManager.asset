@@ -11,6 +11,7 @@ TagManager:
   - Burger
   - FriendlyAI
   - FriendlyChicken
+  - FriendlyCow
   layers:
   - Default
   - TransparentFX

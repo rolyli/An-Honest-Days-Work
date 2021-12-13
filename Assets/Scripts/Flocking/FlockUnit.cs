@@ -71,7 +71,7 @@ public class FlockUnit : MonoBehaviour
 
         foreach (FlockUnit unit in assignedFlock.chickens)
         {
-            if (unit != this)
+            if ((unit != this) && (unit != null))
             {
                 float neighborDistance = Vector3.SqrMagnitude(unit.transform.position - transform.position);
                 if (neighborDistance <= assignedFlock.cohesionDistance * assignedFlock.cohesionDistance)

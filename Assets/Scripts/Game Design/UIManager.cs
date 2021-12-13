@@ -9,12 +9,12 @@ public class UIManager : MonoBehaviour
     private GameManager gameManager;
 
     // Start is called before the first frame update
+
     void Start()
     {
         textGO = gameObject.GetComponent<TMPro.TextMeshPro>();
         playerRB = GameObject.FindGameObjectWithTag("Player").GetComponent<RigidBody>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        
     }
 
     // Update is called once per frame
@@ -25,6 +25,6 @@ public class UIManager : MonoBehaviour
         var enemySpawnRate = 1 - gameManager.enemyStochasticRate;
         textGO.SetText($"Mass: {mass}\n" +
             $"Fox spawn rate: {enemySpawnRate} every {enemySpawnTime} seconds\n" +
-            $"Foxes: {gameManager.enemyList.Length}");
+            $"Foxes: {gameManager.enemyList.Length}\n");
     }
 }

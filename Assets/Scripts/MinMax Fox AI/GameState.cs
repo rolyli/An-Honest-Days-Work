@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using static MinMaxAIMoves;
 
-// GameState is an bstraction of the following
+// GameState is an abstraction of the following
 // 1) actions available to agents
 // 2) state of the game including number of cows, enemies, etc
 
@@ -20,12 +20,12 @@ public class GameState
     public int MaxEval;
 
     public static int inf = 9999999; // winning or losing condition
-    public HeuristicValues heuristicValues; // enemy or fox heuristic values
+    public HeuristicValues heuristicValues; // enemy or friendly animal heuristic values
     public MaximizingMoves MaxEvalMove; // the actual move to take as the AI
 
-    public GameState()
+    public GameState(HeuristicValues.AIType aiType)
     {
-        this.heuristicValues = new HeuristicValues(HeuristicValues.AIType.Aggressive);
+        this.heuristicValues = new HeuristicValues(aiType);
         friendlyCows = new List<GameObject>();
         friendlyChickens = new List<GameObject>();
 
@@ -50,9 +50,9 @@ public class GameState
     // This constructor is used for cloning parentGameState into childGameState
     // e.g. GameState childGameState = GameState.Clone(parentGameState);
 
-    public GameState(List<GameObject> friendlyCows, List<GameObject> friendlyChickens, List<GameObject> enemies, int eval, int maxEval, MaximizingMoves maxEvalMove)
+    public GameState(List<GameObject> friendlyCows, List<GameObject> friendlyChickens, List<GameObject> enemies, int eval, int maxEval, MaximizingMoves maxEvalMove, HeuristicValues heuristicValues)
     {
-        this.heuristicValues = new HeuristicValues(HeuristicValues.AIType.Defensive);
+        this.heuristicValues = heuristicValues;
         this.friendlyCows = friendlyCows;
         this.friendlyChickens = friendlyChickens;
         this.enemies = enemies;
@@ -136,6 +136,6 @@ public class GameState
             childFriendlyChickens.Add(friendlyChicken);
         }
 
-        return new GameState(childFriendlyCows, childFriendlyChickens, childEnemies, parentGameState.Eval, parentGameState.MaxEval, parentGameState.MaxEvalMove);
+        return new GameState(childFriendlyCows, childFriendlyChickens, childEnemies, parentGameState.Eval, parentGameState.MaxEval, parentGameState.MaxEvalMove, parentGameState.heuristicValues);
     }
 }

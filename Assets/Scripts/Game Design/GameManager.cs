@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Debug.Log(friendlyList.Count);
+        //Debug.Log(friendlyList.Count);
         friendlyList.Clear();
 
     }

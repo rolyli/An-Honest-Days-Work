@@ -30,10 +30,10 @@ public class PlayerAudio : MonoBehaviour
             if (collision != null)
             {
                 Sound sound = audioManager.GetSource("Donk");
-                Debug.Log($"collision {sound.source.isPlaying}");
+                //Debug.Log($"collision {sound.source.isPlaying}");
                 if (sound.source.isPlaying == false)
                 {
-                    Debug.Log("play");
+                    //Debug.Log("play");
                     audioManager.PlayOneShot("Donk");
                 }
             }

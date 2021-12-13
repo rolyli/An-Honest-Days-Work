@@ -32,7 +32,9 @@ public class Flock : MonoBehaviour
 
     private void Update()
     {
-        foreach(FlockUnit chicken in chickens)
+        AssignUnits();
+
+        foreach (FlockUnit chicken in chickens)
         {
             chicken.MoveUnit();
         }
@@ -40,6 +42,8 @@ public class Flock : MonoBehaviour
 
     private void AssignUnits()
     {
+        chickens.Clear();
+
         var chickenTagGOs = GameObject.FindGameObjectsWithTag("FriendlyChicken");
         List<GameObject> chickenGOs = new List<GameObject>();
 

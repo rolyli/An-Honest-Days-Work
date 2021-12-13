@@ -70,10 +70,11 @@
     <Compile Include="Assets\Scripts\Audio and Special Effects\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\Interfaces\BaseState.cs" />
     <Compile Include="Assets\Scripts\Game Design\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Flocking\FlockUnit.cs" />
     <Compile Include="Assets\Scripts\Design Patterns\SingletonManager.cs" />
     <Compile Include="Assets\Scripts\Audio and Special Effects\PlayerAudio.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\Interfaces\StateMachine.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding\PlayerNavMesh.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\MinMaxPathfindingAgent.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\State\Hunting\Hunting.cs" />
     <Compile Include="Assets\Scripts\Game Design\BurgerManager.cs" />
     <Compile Include="Assets\BrokenVector\LowPolyFencePack\Scripts\DoorToggle.cs" />
@@ -87,7 +88,8 @@
     <Compile Include="Assets\Scripts\Audio and Special Effects\Sound.cs" />
     <Compile Include="Assets\Scripts\Game Design\GameManager.cs" />
     <Compile Include="Assets\Scripts\Hierachical FSM\State Machines\FriendlySM.cs" />
-    <Compile Include="Assets\Scripts\Flocking\FlockUnit.cs" />
+    <Compile Include="Assets\Scripts\Game Design\MinMaxAIButton.cs" />
+    <Compile Include="Assets\Scripts\Game Design\MinMaxUIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

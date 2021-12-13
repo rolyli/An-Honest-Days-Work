@@ -6,6 +6,7 @@ using static MinMaxAIMoves;
 
 // Min-max AI for AI teammate (maximizing player)
 // Calculate heuristic value of GameState node
+// Used by PlayerNavMesh for calculating optimal move before pathfinding towards it
 // Setting different AIType changes heuristic values of the agents
 // For example, with AIType.Defensive, defending farm animals are valued more than hunting foxes
 // Chickens always valued more than cows due to lower HP
@@ -65,7 +66,7 @@ public class MinMax
                 {
                     case MaximizingMoves.AttackFox:
                         {
-                            // Assume attacking the enemy also results in loss of friendly due to not
+                            // Assume attacking the enemy also results in loss of friendly
                             GameState childGameState = GameState.Clone(parentGameState);
 
                             childGameState.AttackEnemy();
